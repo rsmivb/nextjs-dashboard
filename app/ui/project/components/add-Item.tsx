@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import { TextField, Button, MenuItem, Typography, Box, Popper, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { fetchProjects } from '@/app/lib/project/data';
 
-export default function AddItemForm() {
+export default async function AddItemForm() {
   const [formData, setFormData] = useState({
     description: '',
     quantity: '',
@@ -14,6 +15,10 @@ export default function AddItemForm() {
     type: '',
     projectName: '',
   });
+
+  const projects = await fetchProjects();
+
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [anchorEl2, setAnchorEl2] = React.useState<null | HTMLElement>(null);
 
@@ -62,10 +67,13 @@ export default function AddItemForm() {
           onChange={handleChange}
           fullWidth
         >
-          <MenuItem value="">
+          <MenuItem key='0' value="">
             <em>None</em>
           </MenuItem>
-          <MenuItem value="project1">Project 1</MenuItem>
+          {projects?.map((project)=>(
+            <MenuItem key={project.id} value={project.id}>{project.name}</MenuItem>)
+          )}
+          
           <MenuItem value="project2">Project 2</MenuItem>
           <MenuItem value="project3">Project 3</MenuItem>
         </TextField>

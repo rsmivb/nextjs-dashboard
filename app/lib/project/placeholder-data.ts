@@ -7,7 +7,7 @@ export const projects = [
     },
 ];
 
-export const types = [
+export const categories = [
     {
         id: '410544b2-4001-4271-9855-fec4b6a6442b',
         name: 'Mao-de-obra'
@@ -58,6 +58,25 @@ export const types = [
     },
 ];
 
+export const suppliers = [
+    {
+        id: '410544b2-4001-4271-9855-fec4b6a64440',
+        name: 'Ferragem Zizo'
+    },
+    {
+        id: '410544b2-4001-4271-9855-fec4b6a64441',
+        name: 'Argasul'
+    },
+    {
+        id: '410544b2-4001-4271-9855-fec4b6a64442',
+        name: 'Concretus'
+    },
+    {
+        id: '410544b2-4001-4271-9855-fec4b6a64433',
+        name: 'JM'
+    }
+]
+
 export const units = [
     {
         id: '410544b2-4001-4271-9855-fec4b6a64430',
@@ -82,11 +101,14 @@ export const items = [
         id: '410544b2-4001-4271-9855-fec4b6a64420',
         description: 'EXEMPLO DE ITEM',
         quantity: '1',
-        unit_id: '410544b2-4001-4271-9855-fec4b6a64429',
+        unitId: '410544b2-4001-4271-9855-fec4b6a64430',
         unitValue: '1.0',
         discount: '0',
         date: '2024-11-21',
-        type_ids: ['410544b2-4001-4271-9855-fec4b6a6442c'],
-        project_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+        month: 11,
+        year: 2024,
+        supplierId: '410544b2-4001-4271-9855-fec4b6a64440',
+        typeIds: ['410544b2-4001-4271-9855-fec4b6a6442c'],
+        projectId: '410544b2-4001-4271-9855-fec4b6a6442a',
     }
 ]
