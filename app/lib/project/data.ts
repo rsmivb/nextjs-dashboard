@@ -24,7 +24,7 @@ export async function upsertProject(project: Project) {
             return (await sql`UPDATE projects SET name=${project.name}, description=${project.description} WHERE id = ${project.id}`).rows;
         }
         else {
-            return (await sql`INSERT INTO projects (id, name, description) VALUES(gen_random_uuid(), ${project.name}, ${project.description})`).rows;
+            return (await sql`INSERT INTO projects (name, description) VALUES(${project.name}, ${project.description})`).rows;
         }
 
     } catch (error) {
@@ -50,7 +50,7 @@ export async function upsertCategory(category: Category) {
             return (await sql`UPDATE categories SET name=${category.name} WHERE id = ${category.id}`).rows;
         }
         else {
-            return (await sql`INSERT INTO categories (id, name) VALUES(gen_random_uuid(), ${category.name})`).rows;
+            return (await sql`INSERT INTO categories (name) VALUES(${category.name})`).rows;
         }
 
     } catch (error) {
@@ -76,7 +76,7 @@ export async function upsertSupplier(supplier: Supplier) {
             return (await sql`UPDATE suppliers SET name=${supplier.name} WHERE id = ${supplier.id}`).rows;
         }
         else {
-            return (await sql`INSERT INTO suppliers (id, name) VALUES(gen_random_uuid(), ${supplier.name})`).rows;
+            return (await sql`INSERT INTO suppliers (name) VALUES(${supplier.name})`).rows;
         }
 
     } catch (error) {
@@ -102,7 +102,7 @@ export async function upsertUnit(unit: Unit) {
             return (await sql`UPDATE units SET name=${unit.name} WHERE id = ${unit.id}`).rows;
         }
         else {
-            return (await sql`INSERT INTO units (id, name) VALUES(gen_random_uuid(), ${unit.name})`).rows;
+            return (await sql`INSERT INTO units (name) VALUES(${unit.name})`).rows;
         }
 
     } catch (error) {

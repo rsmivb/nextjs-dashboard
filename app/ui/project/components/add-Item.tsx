@@ -4,7 +4,7 @@ import { TextField, Button, MenuItem, Typography, Box, Popper, Stack } from '@mu
 import AddIcon from '@mui/icons-material/Add';
 import { fetchProjects } from '@/app/lib/project/data';
 
-export default async function AddItemForm() {
+export default function AddItemForm() {
   const [formData, setFormData] = useState({
     description: '',
     quantity: '',
@@ -12,15 +12,31 @@ export default async function AddItemForm() {
     unitValue: '0.0',
     discount: '0',
     date: '',
+    month: 0,
+    year: 0,
     type: '',
-    projectName: '',
+    project: {
+      id: '',
+      name: ''
+    },
+    supplier:{
+      id: '',
+      name: ''
+    },
+    categories: [
+      {
+        name: '',
+        id: ''
+      }
+    ]
   });
 
-  const projects = await fetchProjects();
+  //const projects = await fetchProjects();
 
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [anchorEl2, setAnchorEl2] = React.useState<null | HTMLElement>(null);
+  const [anchorEl3, setAnchorEl3] = React.useState<null | HTMLElement>(null);
 
   const handlePopperClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -30,10 +46,16 @@ export default async function AddItemForm() {
     setAnchorEl2(anchorEl2 ? null : event.currentTarget);
   };
 
+  const handlePopperClick3 = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl3(anchorEl3 ? null : event.currentTarget);
+  };
+
   const open = Boolean(anchorEl);
   const open2 = Boolean(anchorEl2);
+  const open3 = Boolean(anchorEl3);
   const id = open ? 'project-popper' : undefined;
-  const id2 = open2 ? 'type-popper2' : undefined;
+  const id2 = open2 ? 'type-popper' : undefined;
+  const id3 = open3 ? 'supplier-popper' : undefined;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -52,30 +74,25 @@ export default async function AddItemForm() {
         Add Item
       </Typography>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <TextField
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-        />
-      <Box sx={{ display: 'flex', gap: 2 }}>
+        <TextField
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+          />
+        <Box sx={{ display: 'flex', gap: 2 }}>
       <TextField
           select
           label="Project Name"
           name="projectName"
-          value={formData.projectName}
+          value={formData.project.name}
           onChange={handleChange}
           fullWidth
         >
           <MenuItem key='0' value="">
             <em>None</em>
           </MenuItem>
-          {projects?.map((project)=>(
-            <MenuItem key={project.id} value={project.id}>{project.name}</MenuItem>)
-          )}
-          
-          <MenuItem value="project2">Project 2</MenuItem>
-          <MenuItem value="project3">Project 3</MenuItem>
+          <MenuItem value="project-id2">Project 2</MenuItem>
         </TextField>
           <Button aria-describedby={id} variant="outlined" onClick={handlePopperClick}><AddIcon /></Button>
           <Popper id={id} open={open} anchorEl={anchorEl} sx={{ zIndex: 1200 }} placement='right'>
@@ -102,18 +119,86 @@ export default async function AddItemForm() {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value="type1">Popper Project Type 1</MenuItem>
-              <MenuItem value="type2">Popper Project Type 2</MenuItem>
-              <MenuItem value="type3">Popper Project Type 3</MenuItem>
+              <MenuItem value="type1">Popper Project 1</MenuItem>
+              <MenuItem value="type2">Popper Project 2</MenuItem>
+              <MenuItem value="type3">Popper Project 3</MenuItem>
             </TextField>
             <Box sx={{ display: 'flex', gap: 2, marginLeft: 'auto' }}>
-              <Button id="projectTypeCancelButton" variant="outlined" color="error">Cancel</Button>
-              <Button id="projectTypeSaveButton" variant="contained">Save</Button>
+              <Button id="projectTypeCancelButton" variant="outlined" color="error" onClick={(e) =>{ console.log('project cancel clicked'); handlePopperClick(e) }}>Cancel</Button>
+              <Button id="projectTypeSaveButton" variant="contained" onClick={() =>{ console.log('project add clicked') }}>Add</Button>
             </Box>
             </Stack>
             </Box>
           </Popper>
-      </Box>
+        </Box>
+        <Box sx={{ display: 'flex', gap: 2 }}>
+        <TextField
+          select
+          fullWidth
+          label="Category"
+          name="type"
+          value={formData.type}
+          onChange={handleChange}
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value="category1">Category 1</MenuItem>
+          <MenuItem value="category2">Category 2</MenuItem>
+          <MenuItem value="category3">Category 3</MenuItem>
+        </TextField>
+        <Button aria-describedby={id2} variant="outlined" onClick={handlePopperClick2}><AddIcon /></Button>
+          <Popper id={id2} open={open2} anchorEl={anchorEl2} sx={{ zIndex: 1200 }} placement='right'>
+            <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper', marginLeft: '2em' }}>
+              <Stack spacing={2}>
+                <TextField
+                  label="Popper Category Name"
+                  name="popperCategoryName"
+                  fullWidth
+                  >
+                </TextField>
+                <Box sx={{ display: 'flex', gap: 2, marginLeft: 'auto' }}>
+                  <Button variant="outlined" color="error" onClick={(e) =>{ console.log('category cancel clicked'); handlePopperClick2(e) }}>Cancel</Button>
+                  <Button variant="contained" onClick={() => { console.log('category add clicked') }}>Add</Button>
+                </Box>
+              </Stack>
+            </Box>
+          </Popper>
+        </Box>
+        <Box sx={{ display: 'flex', gap: 2 }}>
+        <TextField
+          select
+          fullWidth
+          label="Supplier"
+          name="type"
+          value={formData.type}
+          onChange={handleChange}
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value="supplier1">Supplier 1</MenuItem>
+          <MenuItem value="supplier2">Supplier 2</MenuItem>
+          <MenuItem value="supplier3">Supplier 3</MenuItem>
+        </TextField>
+        <Button aria-describedby={id3} variant="outlined" onClick={handlePopperClick3}><AddIcon /></Button>
+          <Popper id={id3} open={open3} anchorEl={anchorEl3} sx={{ zIndex: 1200 }} placement='right'>
+            <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper', marginLeft: '2em' }}>
+              <Stack spacing={2}>
+                <TextField
+                  label="Popper Supplier Name"
+                  name="popperSupplierName"
+                  fullWidth
+                  >
+                </TextField>
+                <Box sx={{ display: 'flex', gap: 2, marginLeft: 'auto' }}>
+                  <Button variant="outlined" color="error" onClick={(e) =>{ console.log('supplier cancel clicked'); handlePopperClick3(e); }}>Cancel</Button>
+                  <Button variant="contained" onClick={() => { console.log('supplier save clicked') }}>Add</Button>
+                </Box>
+              </Stack>
+            </Box>
+          </Popper>
+        </Box>
         <TextField
           fullWidth
           label="Description"
@@ -123,40 +208,6 @@ export default async function AddItemForm() {
           onChange={handleChange}
           maxRows={4}
         />
-        <Box sx={{ display: 'flex', gap: 2 }}>
-        <TextField
-          select
-          fullWidth
-          label="Type"
-          name="type"
-          value={formData.type}
-          onChange={handleChange}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value="type1">Type 1</MenuItem>
-          <MenuItem value="type2">Type 2</MenuItem>
-          <MenuItem value="type3">Type 3</MenuItem>
-        </TextField>
-        <Button aria-describedby={id2} variant="outlined" onClick={handlePopperClick2}><AddIcon /></Button>
-          <Popper id={id2} open={open2} anchorEl={anchorEl2} sx={{ zIndex: 1200 }} placement='right'>
-            <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper', marginLeft: '2em' }}>
-              <Stack spacing={2}>
-                <TextField
-                  label="Popper Type Name"
-                  name="popperTypeName"
-                  fullWidth
-                  >
-                </TextField>
-                <Box sx={{ display: 'flex', gap: 2, marginLeft: 'auto' }}>
-                  <Button variant="outlined" color="error" onClick={() =>{ console.log('clicked') }}>Cancel</Button>
-                  <Button variant="contained" onClick={() => { console.log('clicked') }}>Save</Button>
-                </Box>
-              </Stack>
-            </Box>
-          </Popper>
-        </Box>
         <Box sx={{ display: 'flex', gap: 2 }}>
           <TextField
             type="number"
